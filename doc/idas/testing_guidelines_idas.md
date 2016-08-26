@@ -19,14 +19,12 @@ For example, in the latest test related to version 5.3 of the GEri, all the conf
 
 Once the HW necessary for the test described previosly at "Testing Environmment" chapter have been setup, the following preliminary steps need to be accomplished before to start the test process:
 
-Download the source code to the dedicated server through the command: git clone --branch v5.3.3 https://github.com/Aeronbroker/Aeron.git --single-branch
-Build the component following the GEri owner instructions
-Configure Aeron IoTBroker following the GEri owner istructions.
-Start the component with the script in the IoTBroker-runner folder
-Testing step by step
+coming soon! 
+
+##Testing step by step
 
 coming soon!
 
-Expected results
+##Expected results
 
 coming soon!
