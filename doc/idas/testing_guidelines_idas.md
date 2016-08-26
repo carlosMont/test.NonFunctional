@@ -1,6 +1,6 @@
 This project is part of FIWARE.
 
-IDAS: non functional test guidelines
+#IDAS: non functional test guidelines
 
 IoT Broker is the FIWARE reference implementation by the IoT Broker Generic Enabler by NEC and available at its GitHub repository. The description of the non functional tests carried out on this implementation is also published via the GitHub repository at Fiware/test.NonFunctional
 
