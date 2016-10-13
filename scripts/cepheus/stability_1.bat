@@ -1,0 +1,1 @@
+"C:\JMeter\apache-jmeter-2.13\apache-jmeter-2.13\bin\jmeter" -n -t C:\Fiware\cepheus\scripts\pruebas\stability.jmx
