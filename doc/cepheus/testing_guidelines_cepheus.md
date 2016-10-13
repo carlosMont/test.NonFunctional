@@ -21,10 +21,11 @@ For the testing environment, is needed:
 Once the HW necessary for the test described previosly at "Testing Environmment" chapter have been setup, the following preliminary steps need to be accomplished before to start the test process:
 In order to do the installation of Cepheus, the easiest way is to get the Debian packages, and install them via dpkg. For this, is needed to execute these commands:
 
-`wget -O cepheus-broker.deb "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=com.orange.cepheus&a=cepheus-broker&v=LATEST&p=deb"`
-`wget -O cepheus-cep.deb "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=com.orange.cepheus&a=cepheus-cep&v=LATEST&p=deb"`
-`dpkg -i cepheus-broker.deb`
-`dpkg -i cepheus-cep.deb`
+    wget -O cepheus-broker.deb "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=com.orange.cepheus&a=cepheus-broker&v=LATEST&p=deb"
+    wget -O cepheus-cep.deb "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=com.orange.cepheus&a=cepheus-cep&v=LATEST&p=deb"
+    dpkg -i cepheus-broker.deb
+    dpkg -i cepheus-cep.deb
+
 
 This will install both Cepheus Broker and Cepheus CEP.
 
