@@ -1,0 +1,4 @@
+org\kurento\tutorial\helloworld\HelloWorldApp.class
+org\kurento\tutorial\helloworld\UserSession.class
+org\kurento\tutorial\helloworld\HelloWorldHandler.class
+org\kurento\tutorial\helloworld\HelloWorldHandler$1.class

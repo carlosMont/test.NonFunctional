@@ -38,38 +38,57 @@ In order to start or stop Kurento Media Server, we can use these commands:
 `sudo service kurento-media-server-6.0 start`
 `sudo service kurento-media-server-6.0 stop`
 
+Furthermore, is needed to deploy an example application which use the Loopback functionality from Kurento. For this, it can be used the one in the folder kurento-hello-world, inside scripts folder.
+Then, the following command must be executed:
+`mvn compile exec:java`
+
+An instance of Maven installed in the system is mandatory in order to do this.
 
 ##Testing step by step
 
-The test of Kurento must be done in two steps:
+The test of Kurento must be done in three steps:
 
 1. Script configuration:
 
-There are 4 scripts, one for each scenario.
+In order to run the performance test scripts, two files can be found under "scripts" folder. The one called "KurentoClientLB.bat" is the launcher (executable) who invoke the another file (KurentoClientLB.jar). This bat file must be configured in this way:
 
-Host IP and port must be defined. For this purpose, the following User Defined variables in each Jmeter script must be configured:
+* LINE 7 -> `if %contador% LSS 5 ( ` -> Number of browser instances to open
+* LINE 10 -> `java -jar c:\KurentoSE\KurentoClientLB.jar` -> Path to jar file
+* LINE 11 -> `TIMEOUT /T 240` -> Wait time (in seconds) until open the next browser instance
+* LINE 14 -> `TIMEOUT /T 14400` -> Total time (in seconds) until stop
 
-* HOST -> IP to the host where Kurento is deployed. Depending on the scenario, this IP has to be Kurento-CEP or Kurento-Broker IP (Kurento-CEP for Kurento Cep Stress Scenario, and Kurento-Broker for all the rest).
-* PORT -> Port where Kurento is listening. Depending on the scenario, this port has to be Kurento-CEP or Kurento-Broker Port. (Kurento-CEP for Kurento Cep Stress Scenario, and Kurento-Broker for all the rest).
+The tests were performed with 90 total browser instances and 90 minutes of duration for stress scenario. For stability scenario, they were 20 browser instances and 4 hours of test duration. For both cases, the ramp-up were one virtual user (browser instance) every minute.
 
-Furthermore, the test duration must be configured. It is recommended to use the planificator from the threads group. The duration for the stress tests was 45 minutes, 75 minutes for the load test, and 6 hours in the stability case.
+For stress test, nine virtual machines were used, and the script was configured this way:
 
-Finally, in order to get the results, the path to the results file must be configured in the Simple Data Writer from the script.
+* LINE 7 -> `if %contador% LSS 10 ( ` -> 10 browser instances for each virtual machine. 
+* LINE 11 -> `TIMEOUT /T 540` -> For a wait time of a minute between virtual users start, it must be configured 60 * number of virtual machines. 540 seconds in this case.
+* LINE 14 -> `TIMEOUT /T 4920` -> 90 minutes up. The total time then will be 90 + last virtual machine starting time (each virtual machine start a minute later than the last one). Then as the last machine starts at 8 minutes, it has to be up for 90-8 = 82 minutes (4920 seconds).
 
-2. Script execution:
+For stability test, the way to configure it is analogous. 
 
-For executing the script, the following command must be typed in the jmeter bin folder:
+2. WebRTC metrics monitoring:
 
-`./jmeter.sh -n -t /path/to/script/script_name.jmx`
+Since the execution is not performed with an usual performance testing tool, and the protocol is not HTTP, is necessary to gather specific metrics for WebRTC protocol.
 
-It´s recommended to execute the command in background and nohup mode:
+For this purpose, a simple java library has been developed. It can be found in the "kms_monitoring" folder. 
 
-`nohup ./jmeter.sh -n -t /path/to/script/script_name.jmx &`
+To gather the metrics, the script command.bat must be run in the machine where example Loobpack application is deployed. It has to be configured first this way:
 
-It´s highly recommended to use a hardware resources monitoring tool, in order to measure things like memory and CPU usages, free memory, etc.
+* `java -cp lib/*:kms-monitoring-java-6.0.0-SNAPSHOT.jar org.kurento.tutorial.kmsmonitor.Recolector ws://127.0.0.1:8888/kurento 30000`  => The last number means the time in milliseconds between each gathering. The kurento host has to be configured too.
+
+At the end of the test, the process must be stopped.
+
+3. Script execution:
+
+For executing the script, the file KurentoClientLB.bat must be run. In each virtual machine, the starting must be sequentally, with the ramp-up time in between. For example, it the ramp-up is one minute, then the file must be run at minute 0 in the first virtual machine, in the minute 1 in the second virtual machine, etc.
+
+It's recommended to use some kind of cron system in order to do this.
+
+It´s highly recommended too to use a hardware resources monitoring tool, in order to measure things like memory and CPU usages, free memory, etc.
 
 ##Expected results
 
-As output from the script, a .dat file (in csv format) is generated. This file can be used for plotting different kinds of charts, like threads number, response times, number of errores, responses per second, etc. A plotting tool (like gnuplot) is needed in order to do this.
+As output from the script and monitoring tool, a .dat file (in csv format) is generated. This file can be used for plotting different kinds of charts, like threads number, response times, number of errores, responses per second, etc. A plotting tool (like gnuplot) is needed in order to do this.
 
 Additionally, if a monitoring tool has been used, then different data from it is collected too. Depending on the monitoring tool, it can generate charts directly, or it can be used another tool for plotting the output from monitoring tool (for example, sar from systat library can be used for monitoring, and k-sar tool for plotting the sar output)
