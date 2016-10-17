@@ -109,14 +109,16 @@ The value of the attributes and entities used during the test is generated rando
 
 ## Test Case 8.- Optimized Combined Stability Scenario ##
 
-It's analogous to the test case 7 but with some optimizations recommended by Orion’s developer:
-1.	Added the next parameters to Orion startup:
-	-reqMutexPolicy none -writeConcern 0 -logLevel ERROR -notificationMode threadpool:q:n
-2.	Created four indexes over the entities collection in the database:
-	-db.entities.createIndex( { "_id.id": 1 } )
-	-db.entities.createIndex( { "_id.type": 1 } )
-	-db.entities.createIndex( { "_id.servicePath": 1 } )
-	-db.entities.createIndex( { "attrNames": 1 } )
+It's analogous to the test case 7 but with some optimizations recommended by Orion’s developer
+
+- Added the next parameters to Orion startup
+  -  \-reqMutexPolicy none -writeConcern 0 -logLevel ERROR -notificationMode threadpool:q:n
+
+- Created four indexes over the entities collection in the database:
+  - db.entities.createIndex( { "_id.id": 1 } )
+  - db.entities.createIndex( { "_id.type": 1 } )
+  - db.entities.createIndex( { "_id.servicePath": 1 } )
+  - db.entities.createIndex( { "attrNames": 1 } )
 
 ## Test Case 9.- No Cache Optimized Combined Stability Scenario ##
 
